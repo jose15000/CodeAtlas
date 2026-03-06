@@ -1,0 +1,10 @@
+export type NodeType =
+    "file" |
+    "function" |
+    "class" |
+    "import" |
+    "user_prompt" |
+    "agent_thought" |
+    "tool_call" |
+    "code_change" |
+    "implementation";

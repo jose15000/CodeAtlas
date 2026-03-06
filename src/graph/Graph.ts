@@ -15,4 +15,8 @@ export class Graph {
 
         this.edges.get(edge.from)!.push(edge);
     }
+
+    getNeighbors(nodeId: string) {
+        return this.edges.get(nodeId) || [];
+    }
 }

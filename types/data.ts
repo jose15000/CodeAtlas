@@ -4,4 +4,5 @@ export type Data = {
     fileName: string;
     exports: string[];
     imports: string[];
+    implementation: string;
 }
