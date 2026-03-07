@@ -2,19 +2,15 @@ import { Project, SyntaxKind, Node as TsMorphNode } from "ts-morph";
 import { Graph } from "../graph/Graph";
 import { Node } from "../../types/Node";
 
-/**
- * Parses the TypeScript project in the given directory and visualizes its structure into a Graph.
- */
+
 export function buildContextGraph(dir: string): Graph {
     const graph = new Graph();
 
-    // Initialize ts-morph project
     const project = new Project({
         tsConfigFilePath: `${dir}/tsconfig.json`,
         skipAddingFilesFromTsConfig: false,
     });
 
-    // Fallback if there are no source files loaded automatically, add them manually
     if (project.getSourceFiles().length === 0) {
         project.addSourceFilesAtPaths(`${dir}/**/*.ts`);
     }
@@ -22,7 +18,6 @@ export function buildContextGraph(dir: string): Graph {
     const sourceFiles = project.getSourceFiles();
 
     for (const sourceFile of sourceFiles) {
-        // Create Node for File
         const filePath = sourceFile.getFilePath();
         const fileNode: Node = {
             id: filePath,
@@ -31,7 +26,6 @@ export function buildContextGraph(dir: string): Graph {
         };
         graph.addNode(fileNode);
 
-        // 1. Extract Classes
         const classes = sourceFile.getClasses();
         for (const cls of classes) {
             const className = cls.getName();
@@ -44,18 +38,15 @@ export function buildContextGraph(dir: string): Graph {
                 data: { name: className }
             });
 
-            // Add DEFINES edge: File -> Class
             graph.addEdge({
                 from: filePath,
                 to: classId,
                 type: "DEFINES"
             });
 
-            // Extract implemented interfaces via IMPLEMENTS edge
             const implementsNodes = cls.getImplements();
             for (const impl of implementsNodes) {
                 const exprType = impl.getExpression().getText();
-                // Naive ID assumption, ideally would resolve to actual symbol definition file
                 const implId = `${exprType}`;
                 graph.addEdge({
                     from: classId,
