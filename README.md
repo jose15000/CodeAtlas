@@ -1,6 +1,6 @@
 # Visão Geral
 
-A proposta é criar um SDK local capaz de construir um **grafo de contexto do projeto e das interações do agente** para fornecer contexto estrutural real a agentes de IA que editam código.
+A proposta é criar uma ferramenta local capaz de construir um **grafo de contexto do projeto e das interações do agente** para fornecer contexto estrutural real a agentes de IA que editam código.
 
 O objetivo é resolver três problemas principais presentes nas ferramentas atuais:
 
@@ -29,7 +29,7 @@ Isso permite que o agente compreenda:
 
 # Conceito Central
 
-O SDK mantém um **grafo vivo do projeto**.
+A ferramenta mantém um **grafo vivo do projeto**.
 
 Ele não é apenas:
 
