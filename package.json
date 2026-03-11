@@ -1,11 +1,27 @@
 {
-  "name": "CodeAtlas",
+  "name": "codeatlas",
   "version": "1.0.50",
   "type": "module",
+  "description": "CodeAtlas context graph database and MCP server",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    }
+  },
+  "files": [
+    "dist/**/*.js",
+    "dist/**/*.d.ts"
+  ],
+  "bin": {
+    "codeatlas-mcp": "./dist/MCP/server.js"
+  },
   "scripts": {
     "test": "bun test",
     "dev": "bun run --watch src/index.ts",
-    "mcp": "tsc && chmod 755 dist/src/MCP/server.js"
+    "mcp": "tsc && chmod 755 dist/MCP/server.js"
   },
   "dependencies": {
     "@modelcontextprotocol/sdk": "^1.27.1",
@@ -18,14 +34,5 @@
     "bun-types": "latest",
     "tsx": "^4.21.0",
     "typescript": "^5.9.3"
-  },
-  "compilerOptions": {
-    "target": "ES2022",
-    "module": "NodeNext",
-    "moduleResolution": "NodeNext",
-    "esModuleInterop": true,
-    "strict": true,
-    "outDir": "dist"
-  },
-  "module": "src/index.js"
+  }
 }

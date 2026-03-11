@@ -1,17 +1,26 @@
-import { addCodeChange, getChangesForFile, getChangesGraph } from "../../graph/changes/changes.js";
+import { Graph } from "../../graph/Graph.js";
+import { addCodeChange, getChangesForFile, saveChangesGraph } from "../../graph/changes/changes.js";
 
-export function saveCodeChange(file: string, description: string, diff?: string, thoughtId?: string) {
-    const changeId = addCodeChange({ file, description, diff, thoughtId });
+export function saveCodeChange(
+    changesGraph: Graph,
+    file: string,
+    description: string,
+    diff?: string,
+    thoughtId?: string
+) {
+    const changeId = addCodeChange(changesGraph, { file, description, diff, thoughtId });
+    saveChangesGraph(changesGraph);
+
     return {
         content: [{
             type: "text" as const,
-            text: `✓ Code change recorded. Change ID: ${changeId}\n  File: ${file}\n  Description: ${description}`
+            text: `Code change recorded. Change ID: ${changeId}\n  File: ${file}\n  Description: ${description}`
         }]
     };
 }
 
-export function getFileHistory(file: string) {
-    const changes = getChangesForFile(file);
+export function getFileHistory(changesGraph: Graph, file: string) {
+    const changes = getChangesForFile(changesGraph, file);
 
     if (changes.length === 0) {
         return { content: [{ type: "text" as const, text: `No recorded changes for: ${file}` }] };
@@ -24,19 +33,15 @@ export function getFileHistory(file: string) {
     return { content: [{ type: "text" as const, text: output }] };
 }
 
-export function getAllChanges() {
-    const graph = getChangesGraph();
-
-    if (graph.nodes.size === 0) {
+export function getAllChanges(changesGraph: Graph) {
+    if (changesGraph.nodes.size === 0) {
         return { content: [{ type: "text" as const, text: "No code changes recorded yet." }] };
     }
 
-    const changes = Array.from(graph.nodes.values())
+    const changes = Array.from(changesGraph.nodes.values())
         .filter(n => n.type === "code_change")
         .sort((a, b) => a.data.timestamp.localeCompare(b.data.timestamp))
-        .map(n =>
-            `[${n.data.timestamp}] ${n.data.file}\n  ${n.data.description}`
-        );
+        .map(n => `[${n.data.timestamp}] ${n.data.file}\n  ${n.data.description}`);
 
     return { content: [{ type: "text" as const, text: changes.join("\n\n") }] };
 }
