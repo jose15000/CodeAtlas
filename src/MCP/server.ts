@@ -98,10 +98,23 @@ server.registerTool(
         inputSchema: {
             prompt: z.string().describe("The user's original request"),
             thought: z.string().describe("Your reasoning process"),
-            solution: z.string().describe("The solution you applied")
+            solution: z.string().describe("The solution you applied"),
+            agent: z.string().describe("The agent that generated the reasoning"),
+            model: z.string().describe("The model that was used"),
+            project: z.string().describe("The associated project"),
+            run_id: z.string().describe("The execution run ID. Ex: run_1")
         }
     },
-    async ({ prompt, thought, solution }) => saveReasoning(reasoningGraph, prompt, thought, solution)
+    async ({ prompt, thought, solution, agent, model, project, run_id }) =>
+        saveReasoning(reasoningGraph, {
+            prompt,
+            thought,
+            solution,
+            agent: agent,
+            model: model,
+            project: project,
+            run_id: run_id
+        })
 );
 
 // Changes Graph tools

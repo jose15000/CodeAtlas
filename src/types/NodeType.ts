@@ -7,8 +7,10 @@ export type NodeType =
     "user_prompt" |
     "agent_thought" |
     "tool_call" |
+    "tool_result" |
     "code_change" |
     "implementation" |
+    "context_lookup" |
     "interface" |
     "module" |
     "export";

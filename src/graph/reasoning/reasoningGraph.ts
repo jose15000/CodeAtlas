@@ -1,6 +1,7 @@
 import path from "path";
 import { Graph } from "../Graph.js";
 import { saveGraph, loadGraph } from "../persistence.js";
+import { IReasoning } from "../../types/Reasoning.js";
 
 const REASONING_CACHE = ".codeatlas-reasoning.json";
 
@@ -14,17 +15,25 @@ export function saveReasoningGraph(graph: Graph): void {
     saveGraph(graph, cachePath);
 }
 
-export function addReasoning(graph: Graph, prompt: string, thought: string, solution: string): void {
-    const timestamp = new Date().toISOString();
 
+export function addReasoning(graph: Graph, reasoning: IReasoning): void {
+    const timestamp = new Date().toISOString();
     const promptId = crypto.randomUUID();
-    graph.addNode({ id: promptId, type: "user_prompt", data: { text: prompt, timestamp } });
+    graph.addNode({ id: promptId, type: "user_prompt", data: { text: reasoning.prompt, timestamp } });
 
     const thoughtId = crypto.randomUUID();
-    graph.addNode({ id: thoughtId, type: "agent_thought", data: { text: thought, timestamp } });
+    graph.addNode({ id: thoughtId, type: "agent_thought", data: { text: reasoning.thought, timestamp } });
 
     const solutionId = crypto.randomUUID();
-    graph.addNode({ id: solutionId, type: "implementation", data: { text: solution, timestamp } });
+    graph.addNode({
+        id: solutionId, type: "implementation", data: { text: reasoning.solution, timestamp },
+        metadata: {
+            agent: reasoning.agent, project:
+                reasoning.project, model: reasoning.model,
+
+            run_id: reasoning.run_id
+        }
+    });
 
     graph.addEdge({ from: promptId, to: thoughtId, type: "THINKS" });
     graph.addEdge({ from: thoughtId, to: solutionId, type: "GENERATED_BY" });

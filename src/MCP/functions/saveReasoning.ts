@@ -1,8 +1,9 @@
 import { Graph } from "../../graph/Graph.js";
 import { addReasoning, saveReasoningGraph } from "../../graph/reasoning/reasoningGraph.js";
+import { IReasoning } from "../../types/Reasoning.js";
 
-export function saveReasoning(reasoningGraph: Graph, prompt: string, thought: string, solution: string) {
-    addReasoning(reasoningGraph, prompt, thought, solution);
+export function saveReasoning(reasoningGraph: Graph, reasoning: IReasoning) {
+    addReasoning(reasoningGraph, reasoning);
     saveReasoningGraph(reasoningGraph);
 
     return {
