@@ -1,4 +1,42 @@
-# Visão Geral
+# ContextAtlas
+
+O ContextAtlas é um Servidor MCP que captura não apenas a sintaxe, mas o **raciocínio do agente**, e constrói uma memória temporal e estrutural de toda a sessão de desenvolvimento para qualquer Agente de IA compatível com o protocolo MCP (Cursor, Claude Desktop, Windsurf, Devin, etc).
+
+## 🚀 Quick Start (Instalação)
+
+Basta adicionar o ContextAtlas ao arquivo de configuração do seu cliente MCP favorito (por exemplo, `claude_desktop_config.json` para o Claude Desktop ou nas configurações do seu editor):
+
+```json
+"mcpServers": {
+  "contextatlas": {
+    "command": "npx",
+    "args": [
+      "-y",
+      "@contextatlas/core@latest",
+      "mcp-atlas"
+    ]
+  }
+}
+```
+
+*Após reiniciar o seu cliente MCP, o seu Agente de IA imediatamente ganha as capacidades do ContextAtlas!*
+
+---
+
+## 🛠️ Ferramentas Disponíveis na IA
+
+Com o ContextAtlas ativo, o Agente de IA ganha os seguintes "super poderes" (Tools):
+
+- **`find_symbol`**: Localiza rapidamente classes, métodos e funções pelo nome no projeto todo.
+- **`trace_callers`**: Descobre quem depende da função X (evitando quebrar código existente!).
+- **`trace_callees`**: Entende de quem um código complexo depende internamente.
+- **`expand_node`**: Navega pelas conexões do grafo de dependências via busca relacional (BFS).
+- **`save_code_change`**: O agente "salva" automaticamente para a memória persistente que modificou o arquivo para lembrar disso no futuro do contexto.
+- **`create_reasoning_context_graph`**: Salva o raciocínio temporal para que outro agente (semanas depois) saiba o "*por que*" ele construiu o código daquele jeito.
+
+---
+
+# Visão Geral Teórica
 
 A proposta é criar uma ferramenta local capaz de construir um **grafo de contexto do projeto e das interações do agente** para fornecer contexto estrutural real a agentes de IA que editam código.
 

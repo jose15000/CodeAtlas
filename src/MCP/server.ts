@@ -17,7 +17,7 @@ import { loadReasoningGraph } from "../graph/reasoning/reasoningGraph.js";
 import { loadChangesGraph } from "../graph/changes/changes.js";
 
 // ─── Load all three graphs into memory at startup ────────────────────────────
-const CACHE_PATH = path.join(process.cwd(), ".codeatlas-cache.json");
+const CACHE_PATH = path.join(process.cwd(), "/graphs/.codeatlas-cache.json");
 
 const codeGraph = loadOrBuildGraph(CACHE_PATH);
 const reasoningGraph = loadReasoningGraph();
