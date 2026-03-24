@@ -16,7 +16,7 @@ export function addCodeChange(graph, entry) {
     graph.addNode({
         id: changeId,
         type: "code_change",
-        data: { file: entry.file, description: entry.description, diff: entry.diff ?? null, timestamp }
+        data: { file: entry.file, agentThought: entry.agentThought, description: entry.description, diff: entry.diff ?? null, timestamp }
     });
     graph.addEdge({ from: changeId, to: entry.file, type: "MODIFIES" });
     if (entry.thoughtId) {
@@ -24,6 +24,7 @@ export function addCodeChange(graph, entry) {
     }
     return changeId;
 }
-export function getChangesForFile(graph, file) {
-    return Array.from(graph.nodes.values()).filter(n => n.type === "code_change" && n.data.file === file);
+export function getChangesForFile(file, nodeType) {
+    let graph = new Graph;
+    return Array.from(graph.nodes.values()).filter(n => n.type === nodeType && n.data.file === file);
 }

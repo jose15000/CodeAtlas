@@ -1,8 +1,7 @@
-export type AgentThought = {
-    decision: string;
-    plan: string;
-    observation: string;
-    bug: string;
-    fix: string;
-    test: string;
-}
+export type AgentThought =
+    | "decision"
+    | "plan"
+    | "observation"
+    | "bug"
+    | "fix"
+    | "test";

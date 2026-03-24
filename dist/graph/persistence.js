@@ -1,10 +1,12 @@
 import fs from "fs";
+import path from "path";
 import { Graph } from "./Graph.js";
 export function saveGraph(graph, filePath) {
     const data = {
         nodes: Array.from(graph.nodes.values()),
         edges: graph.edges,
     };
+    fs.mkdirSync(path.dirname(filePath), { recursive: true });
     fs.writeFileSync(filePath, JSON.stringify(data, null, 2), "utf-8");
 }
 export function loadGraph(filePath) {

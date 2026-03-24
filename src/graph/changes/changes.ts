@@ -1,12 +1,15 @@
 import path from "path";
 import { Graph } from "../Graph.js";
 import { saveGraph, loadGraph } from "../persistence.js";
+import { NodeType } from "../../types/NodeType.js";
+import { AgentThought } from "../../types/AgentThought.js";
 
 const CHANGES_CACHE = "./context/codeatlas-changes.json";
 
 export interface CodeChangeEntry {
     file: string;
     description: string;
+    agentThought: AgentThought
     diff?: string;
     thoughtId?: string;
 }
@@ -28,7 +31,7 @@ export function addCodeChange(graph: Graph, entry: CodeChangeEntry): string {
     graph.addNode({
         id: changeId,
         type: "code_change",
-        data: { file: entry.file, description: entry.description, diff: entry.diff ?? null, timestamp }
+        data: { file: entry.file, agentThought: entry.agentThought, description: entry.description, diff: entry.diff ?? null, timestamp }
     });
 
     graph.addEdge({ from: changeId, to: entry.file, type: "MODIFIES" });
@@ -40,8 +43,9 @@ export function addCodeChange(graph: Graph, entry: CodeChangeEntry): string {
     return changeId;
 }
 
-export function getChangesForFile(graph: Graph, file: string) {
+export function getChangesForFile(file: string, nodeType: NodeType) {
+    let graph = new Graph;
     return Array.from(graph.nodes.values()).filter(
-        n => n.type === "code_change" && n.data.file === file
+        n => n.type === nodeType && n.data.file === file
     );
 }

@@ -1,4 +1,5 @@
 import fs from "fs";
+import path from "path";
 import { Graph } from "./Graph.js";
 import { Node } from "../types/Node.js";
 import { Edge } from "../types/Edge.js";
@@ -13,6 +14,7 @@ export function saveGraph(graph: Graph, filePath: string): void {
         nodes: Array.from(graph.nodes.values()),
         edges: graph.edges,
     };
+    fs.mkdirSync(path.dirname(filePath), { recursive: true });
     fs.writeFileSync(filePath, JSON.stringify(data, null, 2), "utf-8");
 }
 

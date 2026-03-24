@@ -1,14 +1,17 @@
 import { Graph } from "../../graph/Graph.js";
 import { addCodeChange, getChangesForFile, saveChangesGraph } from "../../graph/changes/changes.js";
+import { AgentThought } from "../../types/AgentThought.js";
+import { NodeType } from "../../types/NodeType.js";
 
 export function saveCodeChange(
     changesGraph: Graph,
     file: string,
+    agentThought: AgentThought,
     description: string,
     diff?: string,
     thoughtId?: string
 ) {
-    const changeId = addCodeChange(changesGraph, { file, description, diff, thoughtId });
+    const changeId = addCodeChange(changesGraph, { file, description, agentThought, diff, thoughtId });
     saveChangesGraph(changesGraph);
 
     return {
@@ -19,8 +22,8 @@ export function saveCodeChange(
     };
 }
 
-export function getFileHistory(changesGraph: Graph, file: string) {
-    const changes = getChangesForFile(changesGraph, file);
+export function getFileHistory(nodeType: NodeType, file: string) {
+    const changes = getChangesForFile(file, nodeType);
 
     if (changes.length === 0) {
         return { content: [{ type: "text" as const, text: `No recorded changes for: ${file}` }] };
@@ -39,7 +42,7 @@ export function getAllChanges(changesGraph: Graph) {
     }
 
     const changes = Array.from(changesGraph.nodes.values())
-        .filter(n => n.type.code_change)
+        .filter(n => n.type === "code_change")
         .sort((a, b) => a.data.timestamp.localeCompare(b.data.timestamp))
         .map(n => `[${n.data.timestamp}] ${n.data.file}\n  ${n.data.description}`);
 

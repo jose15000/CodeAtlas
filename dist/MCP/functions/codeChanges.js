@@ -1,6 +1,6 @@
 import { addCodeChange, getChangesForFile, saveChangesGraph } from "../../graph/changes/changes.js";
-export function saveCodeChange(changesGraph, file, description, diff, thoughtId) {
-    const changeId = addCodeChange(changesGraph, { file, description, diff, thoughtId });
+export function saveCodeChange(changesGraph, file, agentThought, description, diff, thoughtId) {
+    const changeId = addCodeChange(changesGraph, { file, description, agentThought, diff, thoughtId });
     saveChangesGraph(changesGraph);
     return {
         content: [{
@@ -9,8 +9,8 @@ export function saveCodeChange(changesGraph, file, description, diff, thoughtId)
             }]
     };
 }
-export function getFileHistory(changesGraph, file) {
-    const changes = getChangesForFile(changesGraph, file);
+export function getFileHistory(nodeType, file) {
+    const changes = getChangesForFile(file, nodeType);
     if (changes.length === 0) {
         return { content: [{ type: "text", text: `No recorded changes for: ${file}` }] };
     }

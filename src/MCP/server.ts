@@ -15,9 +15,10 @@ import { saveReasoning } from "./functions/saveReasoning.js";
 import { saveCodeChange, getFileHistory, getAllChanges } from "./functions/codeChanges.js";
 import { loadReasoningGraph } from "../graph/reasoning/reasoningGraph.js";
 import { loadChangesGraph } from "../graph/changes/changes.js";
+import { NodeType } from "../types/NodeType.js";
 
 // ─── Load all three graphs into memory at startup ────────────────────────────
-const CACHE_PATH = path.join(process.cwd(), "/graphs/.codeatlas-cache.json");
+const CACHE_PATH = path.join(process.cwd(), "./context/.codeatlas-cache.json");
 
 const codeGraph = loadOrBuildGraph(CACHE_PATH);
 const reasoningGraph = loadReasoningGraph();
@@ -125,20 +126,34 @@ server.registerTool(
         inputSchema: {
             file: z.string().describe("Absolute or relative path to the modified file"),
             description: z.string().describe("Short description of what was changed and why"),
+            agentThought: z.enum([
+                "decision", "plan", "observation", "bug", "fix", "test"
+            ]).describe("use these parameters to describe your thoughts over the code change"),
             diff: z.string().optional().describe("Optional: the actual diff or snippet of the change"),
             thoughtId: z.string().optional().describe("Optional: ID of the agent thought that caused this change")
         }
     },
-    async ({ file, description, diff, thoughtId }) => saveCodeChange(changesGraph, file, description, diff, thoughtId)
+    async ({ file, description, agentThought, diff, thoughtId }) => saveCodeChange(changesGraph, file, agentThought, description, diff, thoughtId)
 );
 
 server.registerTool(
     "get_file_history",
     {
         description: "Returns all recorded changes for a specific file.",
-        inputSchema: { file: z.string().describe("Path to the file") }
+        inputSchema: {
+            file: z.string().describe("Path to the file"),
+            nodeType: z.enum([
+                "file", "function", "method", "class", "import",
+                "user_prompt", "tool_call", "tool_result",
+                "code_change", "implementation", "context_lookup", "interface",
+                "module", "exports"
+            ]).describe("Type of the node (e.g. 'file')"),
+            agentThought: z.enum([
+                "decision", "plan", "observation", "bug", "fix", "test"
+            ]).describe("use it to register the agent thought").optional(),
+        }
     },
-    async ({ file }) => getFileHistory(changesGraph, file)
+    async ({ file, nodeType }) => getFileHistory(nodeType, file)
 );
 
 server.registerTool(
