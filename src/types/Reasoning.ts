@@ -1,7 +1,9 @@
+import { AgentThought } from "./AgentThought";
 import { NodeMetadata } from "./NodeMetadata";
 
 export interface IReasoning extends NodeMetadata {
     prompt: string;
-    thought: string;
+    thoughtDescription: string;
+    thoughtDetails: AgentThought;
     solution: string;
 }

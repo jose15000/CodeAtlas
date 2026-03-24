@@ -90,7 +90,7 @@ describe("saveReasoningGraph", () => {
 describe("addReasoning", () => {
     it("adiciona exatamente 3 nós e 2 arestas ao grafo", () => {
         const g = new Graph();
-        addReasoning(g, { prompt: "prompt", thought: "thought", solution: "solution" } as any);
+        addReasoning(g, { prompt: "prompt", thoughtDescription: "thought", thoughtDetails: "decision", solution: "solution" } as any);
 
         expect(g.nodes.size).toBe(3);
         expect(g.edges.length).toBe(2);
@@ -98,7 +98,7 @@ describe("addReasoning", () => {
 
     it("cria nós com os tipos corretos", () => {
         const g = new Graph();
-        addReasoning(g, { prompt: "p", thought: "t", solution: "s" } as any);
+        addReasoning(g, { prompt: "p", thoughtDescription: "t", thoughtDetails: "decision", solution: "s" } as any);
 
         const types = Array.from(g.nodes.values()).map((n) => n.type);
         expect(types).toContain("user_prompt");
@@ -108,7 +108,7 @@ describe("addReasoning", () => {
 
     it("armazena os textos corretos nos nós", () => {
         const g = new Graph();
-        addReasoning(g, { prompt: "meu prompt", thought: "meu pensamento", solution: "minha solução" } as any);
+        addReasoning(g, { prompt: "meu prompt", thoughtDescription: "meu pensamento", thoughtDetails: "decision", solution: "minha solução" } as any);
 
         const nodes = Array.from(g.nodes.values());
         expect(nodes.find((n) => n.type === "user_prompt")?.data.text).toBe("meu prompt");
@@ -118,7 +118,7 @@ describe("addReasoning", () => {
 
     it("conecta com arestas THINKS e GENERATED_BY na direção correta", () => {
         const g = new Graph();
-        addReasoning(g, { prompt: "p", thought: "t", solution: "s" } as any);
+        addReasoning(g, { prompt: "p", thoughtDescription: "t", thoughtDetails: "decision", solution: "s" } as any);
 
         const nodes = Array.from(g.nodes.values());
         const promptNode = nodes.find((n) => n.type === "user_prompt")!;
@@ -136,19 +136,19 @@ describe("addReasoning", () => {
 
     it("cada nó tem um timestamp ISO válido", () => {
         const g = new Graph();
-        addReasoning(g, { prompt: "p", thought: "t", solution: "s" } as any);
+        addReasoning(g, { prompt: "p", thoughtDescription: "t", thoughtDetails: "decision", solution: "s" } as any);
 
         for (const node of g.nodes.values()) {
-            const ts = node.data.timestamp as string;
+            const ts = node.data.timestamp;
             expect(ts).toBeDefined();
-            expect(new Date(ts).toISOString()).toBe(ts);
+            expect(ts).toBeInstanceOf(Date);
         }
     });
 
     it("acumula múltiplas entradas no mesmo grafo", () => {
         const g = new Graph();
-        addReasoning(g, { prompt: "p1", thought: "t1", solution: "s1" } as any);
-        addReasoning(g, { prompt: "p2", thought: "t2", solution: "s2" } as any);
+        addReasoning(g, { prompt: "p1", thoughtDescription: "t1", thoughtDetails: "decision", solution: "s1" } as any);
+        addReasoning(g, { prompt: "p2", thoughtDescription: "t2", thoughtDetails: "decision", solution: "s2" } as any);
 
         expect(g.nodes.size).toBe(6);
         expect(g.edges.length).toBe(4);
@@ -156,8 +156,8 @@ describe("addReasoning", () => {
 
     it("gera IDs únicos a cada chamada", () => {
         const g = new Graph();
-        addReasoning(g, { prompt: "p1", thought: "t1", solution: "s1" } as any);
-        addReasoning(g, { prompt: "p2", thought: "t2", solution: "s2" } as any);
+        addReasoning(g, { prompt: "p1", thoughtDescription: "t1", thoughtDetails: "decision", solution: "s1" } as any);
+        addReasoning(g, { prompt: "p2", thoughtDescription: "t2", thoughtDetails: "decision", solution: "s2" } as any);
 
         const ids = Array.from(g.nodes.keys());
         expect(new Set(ids).size).toBe(ids.length);
@@ -165,7 +165,7 @@ describe("addReasoning", () => {
 
     it("não persiste automaticamente — requer saveReasoningGraph", () => {
         const g = new Graph();
-        addReasoning(g, { prompt: "p", thought: "t", solution: "s" } as any);
+        addReasoning(g, { prompt: "p", thoughtDescription: "t", thoughtDetails: "decision", solution: "s" } as any);
         // Sem chamar saveReasoningGraph, o arquivo não deve existir
         expect(fs.existsSync(cachePath())).toBe(false);
     });
@@ -179,7 +179,7 @@ describe("fluxo completo de persistência", () => {
     it("persiste e recarrega entradas de reasoning corretamente", () => {
         // Sessão 1: adiciona e salva
         const g1 = loadReasoningGraph();
-        addReasoning(g1, { prompt: "Como funciona o BFS?", thought: "O BFS usa uma fila e um Set de visitados", solution: "Implementei expandGraph com BFS iterativo" } as any);
+        addReasoning(g1, { prompt: "Como funciona o BFS?", thoughtDescription: "O BFS usa uma fila e um Set de visitados", thoughtDetails: "decision", solution: "Implementei expandGraph com BFS iterativo" } as any);
         saveReasoningGraph(g1);
 
         // Sessão 2: recarrega e verifica

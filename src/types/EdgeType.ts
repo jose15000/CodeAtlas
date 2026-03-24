@@ -8,4 +8,5 @@ export type EdgeType =
     | "THINKS"
     | "CALLS_TOOL"
     | "MODIFIES"
+    | "FIXES"
     | "RELATED_TO_PROMPT"

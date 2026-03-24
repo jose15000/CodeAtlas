@@ -17,12 +17,12 @@ export function saveReasoningGraph(graph: Graph): void {
 
 
 export function addReasoning(graph: Graph, reasoning: IReasoning): void {
-    const timestamp = new Date().toISOString();
+    const timestamp = new Date();
     const promptId = crypto.randomUUID();
     graph.addNode({ id: promptId, type: "user_prompt", data: { text: reasoning.prompt, timestamp } });
 
     const thoughtId = crypto.randomUUID();
-    graph.addNode({ id: thoughtId, type: "agent_thought", data: { text: reasoning.thought, timestamp } });
+    graph.addNode({ id: thoughtId, type: "agent_thought", data: { text: reasoning.thoughtDescription, timestamp, description: reasoning.thoughtDetails } });
 
     const solutionId = crypto.randomUUID();
     graph.addNode({
