@@ -16,6 +16,8 @@ import { saveCodeChange, getFileHistory, getAllChanges } from "./functions/codeC
 import { loadReasoningGraph } from "../graph/reasoning/reasoningGraph.js";
 import { loadChangesGraph } from "../graph/changes/changes.js";
 import { NodeType } from "../types/NodeType.js";
+import { getBugsByFile } from "./functions/getBugsByFile.js";
+import { Graph } from "../graph/Graph.js";
 
 // ─── Load all three graphs into memory at startup ────────────────────────────
 const CACHE_PATH = path.join(process.cwd(), "./context/.codeatlas-cache.json");
@@ -175,6 +177,17 @@ server.registerTool(
     async () => getAllChanges(changesGraph)
 );
 
+
+server.registerTool(
+    "find_bugs_by_file",
+    {
+        description: "Returns bugs registered during model reasoning.",
+        inputSchema: {
+            file: z.string().describe("the desired filepath")
+        },
+    },
+    async ({ file }) => getBugsByFile(reasoningGraph, file)
+);
 
 // Starts the MCP server on stdio transport
 async function main() {
