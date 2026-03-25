@@ -10,7 +10,7 @@ function makeGraph(): Graph {
     //         ↓
     //         E
     for (const id of ["A", "B", "C", "D", "E"]) {
-        g.addNode({ id, type: "file", data: {} });
+        g.addNode({ graphType: "Code", id, type: "file", data: {} });
     }
     g.addEdge({ from: "A", to: "B", type: "IMPORTS" });
     g.addEdge({ from: "B", to: "C", type: "IMPORTS" });
@@ -87,7 +87,7 @@ describe("expandGraph", () => {
 
     it("works on a graph with a single isolated node", () => {
         const g = new Graph();
-        g.addNode({ id: "solo", type: "file", data: {} });
+        g.addNode({ graphType: "Code", id: "solo", type: "file", data: {} });
 
         const { nodes, edges } = expandGraph(g, "solo", 5);
         expect(nodes.map((n) => n.id)).toContain("solo");

@@ -30,7 +30,7 @@ describe("saveGraph", () => {
 
     it("serializes nodes and edges correctly", () => {
         const graph = new Graph();
-        graph.addNode({ id: "n1", type: "file", data: { path: "/a.ts" } });
+        graph.addNode({ graphType: "Code", id: "n1", type: "file", data: { path: "/a.ts" } });
         graph.addEdge({ from: "n1", to: "n2", type: "IMPORTS" });
 
         saveGraph(graph, filePath);
@@ -53,7 +53,7 @@ describe("saveGraph", () => {
 
     it("overwrites an existing file on subsequent saves", () => {
         const graph1 = new Graph();
-        graph1.addNode({ id: "n1", type: "file", data: {} });
+        graph1.addNode({ graphType: "Code", id: "n1", type: "file", data: {} });
         saveGraph(graph1, filePath);
 
         const graph2 = new Graph();
@@ -106,8 +106,8 @@ describe("loadGraph", () => {
 
     it("round-trips a graph through save then load without data loss", () => {
         const original = new Graph();
-        original.addNode({ id: "n1", type: "class", data: { name: "MyClass" } });
-        original.addNode({ id: "n2", type: "method", data: { name: "myMethod" } });
+        original.addNode({ graphType: "Code", id: "n1", type: "class", data: { name: "MyClass" } });
+        original.addNode({ graphType: "Code", id: "n2", type: "method", data: { name: "myMethod" } });
         original.addEdge({ from: "n1", to: "n2", type: "DEFINES" });
 
         saveGraph(original, filePath);

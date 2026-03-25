@@ -9,7 +9,7 @@ beforeEach(() => {
 
 describe("Graph.addNode / getNode", () => {
     it("stores a node and retrieves it by id", () => {
-        graph.addNode({ id: "n1", type: "file", data: { path: "/a.ts" } });
+        graph.addNode({ graphType: "Code", id: "n1", type: "file", data: { path: "/a.ts" } });
         const node = graph.getNode("n1");
         expect(node).toBeDefined();
         expect(node?.id).toBe("n1");
@@ -21,16 +21,16 @@ describe("Graph.addNode / getNode", () => {
     });
 
     it("overwrites a node when the same id is added twice", () => {
-        graph.addNode({ id: "n1", type: "file", data: { path: "/a.ts" } });
-        graph.addNode({ id: "n1", type: "function", data: { name: "foo" } });
+        graph.addNode({ graphType: "Code", id: "n1", type: "file", data: { path: "/a.ts" } });
+        graph.addNode({ graphType: "Code", id: "n1", type: "function", data: { name: "foo" } });
         expect(graph.getNode("n1")?.type).toBe("function");
         expect(graph.nodes.size).toBe(1);
     });
 
     it("stores multiple independent nodes", () => {
-        graph.addNode({ id: "n1", type: "file", data: {} });
-        graph.addNode({ id: "n2", type: "class", data: {} });
-        graph.addNode({ id: "n3", type: "function", data: {} });
+        graph.addNode({ graphType: "Code", id: "n1", type: "file", data: {} });
+        graph.addNode({ graphType: "Code", id: "n2", type: "class", data: {} });
+        graph.addNode({ graphType: "Code", id: "n3", type: "function", data: {} });
         expect(graph.nodes.size).toBe(3);
     });
 });

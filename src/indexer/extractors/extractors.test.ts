@@ -28,7 +28,7 @@ describe("indexInterfaces", () => {
     it("adds a node for each interface", () => {
         const { sf } = makeProject(`interface Foo {} interface Bar {}`);
         const g = new Graph();
-        g.addNode({ id: "/file.ts", type: "file", data: {} });
+        g.addNode({ graphType: "Code", id: "/file.ts", type: "file", data: {} });
 
         indexInterfaces(sf, g);
 
@@ -40,7 +40,7 @@ describe("indexInterfaces", () => {
     it("adds a DEFINES edge from the file to each interface", () => {
         const { sf } = makeProject(`interface Greet {}`);
         const g = new Graph();
-        g.addNode({ id: "/file.ts", type: "file", data: {} });
+        g.addNode({ graphType: "Code", id: "/file.ts", type: "file", data: {} });
 
         indexInterfaces(sf, g);
 
@@ -82,7 +82,7 @@ describe("indexFunctions", () => {
         );
         const tc = project.getTypeChecker();
         const g = new Graph();
-        g.addNode({ id: "/file.ts", type: "file", data: {} });
+        g.addNode({ graphType: "Code", id: "/file.ts", type: "file", data: {} });
 
         indexFunctions(sf, g, tc, alwaysInProject);
 
@@ -95,7 +95,7 @@ describe("indexFunctions", () => {
         const { sf, project } = makeProject(`export function greet() {}`);
         const tc = project.getTypeChecker();
         const g = new Graph();
-        g.addNode({ id: "/file.ts", type: "file", data: {} });
+        g.addNode({ graphType: "Code", id: "/file.ts", type: "file", data: {} });
 
         indexFunctions(sf, g, tc, alwaysInProject);
 
@@ -141,7 +141,7 @@ describe("indexFunctions", () => {
         );
         const tc = project.getTypeChecker();
         const g = new Graph();
-        g.addNode({ id: "/file.ts", type: "file", data: {} });
+        g.addNode({ graphType: "Code", id: "/file.ts", type: "file", data: {} });
 
         indexFunctions(sf, g, tc, alwaysInProject);
 
@@ -161,7 +161,7 @@ describe("indexClasses", () => {
         const { sf, project } = makeProject(`class Dog {} class Cat {}`);
         const tc = project.getTypeChecker();
         const g = new Graph();
-        g.addNode({ id: "/file.ts", type: "file", data: {} });
+        g.addNode({ graphType: "Code", id: "/file.ts", type: "file", data: {} });
 
         indexClasses(sf, g, tc, alwaysInProject);
 
@@ -173,7 +173,7 @@ describe("indexClasses", () => {
         const { sf, project } = makeProject(`class Animal {}`);
         const tc = project.getTypeChecker();
         const g = new Graph();
-        g.addNode({ id: "/file.ts", type: "file", data: {} });
+        g.addNode({ graphType: "Code", id: "/file.ts", type: "file", data: {} });
 
         indexClasses(sf, g, tc, alwaysInProject);
 
@@ -187,7 +187,7 @@ describe("indexClasses", () => {
         );
         const tc = project.getTypeChecker();
         const g = new Graph();
-        g.addNode({ id: "/file.ts", type: "file", data: {} });
+        g.addNode({ graphType: "Code", id: "/file.ts", type: "file", data: {} });
 
         indexClasses(sf, g, tc, alwaysInProject);
 
@@ -199,7 +199,7 @@ describe("indexClasses", () => {
         const { sf, project } = makeProject(`class Svc { run() {} }`);
         const tc = project.getTypeChecker();
         const g = new Graph();
-        g.addNode({ id: "/file.ts", type: "file", data: {} });
+        g.addNode({ graphType: "Code", id: "/file.ts", type: "file", data: {} });
 
         indexClasses(sf, g, tc, alwaysInProject);
 
@@ -213,7 +213,7 @@ describe("indexClasses", () => {
         );
         const tc = project.getTypeChecker();
         const g = new Graph();
-        g.addNode({ id: "/file.ts", type: "file", data: {} });
+        g.addNode({ graphType: "Code", id: "/file.ts", type: "file", data: {} });
 
         indexClasses(sf, g, tc, alwaysInProject);
 
@@ -264,7 +264,7 @@ describe("indexImports", () => {
         );
 
         const g = new Graph();
-        g.addNode({ id: "/main.ts", type: "file", data: {} });
+        g.addNode({ graphType: "Code", id: "/main.ts", type: "file", data: {} });
 
         indexImports(sf, g);
 
@@ -278,7 +278,7 @@ describe("indexImports", () => {
         const { sf } = makeProject(`import something from "some-external-pkg";`);
 
         const g = new Graph();
-        g.addNode({ id: "/file.ts", type: "file", data: {} });
+        g.addNode({ graphType: "Code", id: "/file.ts", type: "file", data: {} });
 
         indexImports(sf, g);
 

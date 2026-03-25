@@ -14,7 +14,7 @@ export function indexFunctions(
         if (!fnName) continue;
 
         const fnId = `${filePath}#${fnName}`;
-        graph.addNode({ id: fnId, type: "function", data: { name: fnName } });
+        graph.addNode({ graphType: "Code", id: fnId, type: "function", data: { name: fnName } });
         graph.addEdge({ from: filePath, to: fnId, type: "DEFINES" });
 
         for (const callExpr of fn.getDescendantsOfKind(SyntaxKind.CallExpression)) {

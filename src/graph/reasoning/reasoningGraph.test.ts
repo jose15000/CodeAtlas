@@ -71,7 +71,7 @@ describe("saveReasoningGraph", () => {
 
     it("round-trip: salva e carrega sem perda de dados", () => {
         const g = new Graph();
-        g.addNode({ id: "n1", type: "user_prompt", data: { text: "oi" } });
+        g.addNode({ graphType: "Reasoning", id: "n1", type: "user_prompt", data: { text: "oi" } });
         g.addEdge({ from: "n1", to: "n2", type: "THINKS" });
 
         saveReasoningGraph(g);

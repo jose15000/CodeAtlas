@@ -14,7 +14,7 @@ export function indexClasses(
         if (!className) continue;
 
         const classId = `${filePath}#${className}`;
-        graph.addNode({ id: classId, type: "class", data: { name: className } });
+        graph.addNode({ graphType: "Code", id: classId, type: "class", data: { name: className } });
         graph.addEdge({ from: filePath, to: classId, type: "DEFINES" });
 
         for (const impl of cls.getImplements()) {
@@ -31,6 +31,7 @@ export function indexClasses(
 
             const methodId = `${filePath}#${className}.${methodName}`;
             graph.addNode({
+                graphType: "Code",
                 id: methodId,
                 type: "method",
                 data: { name: `${className}.${methodName}`, className, methodName }

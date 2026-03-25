@@ -9,7 +9,7 @@ export function indexInterfaces(sourceFile: SourceFile, graph: Graph) {
         if (!ifaceName) continue;
 
         const ifaceId = `${filePath}#${ifaceName}`;
-        graph.addNode({ id: ifaceId, type: "interface", data: { name: ifaceName } });
+        graph.addNode({ graphType: "Code", id: ifaceId, type: "interface", data: { name: ifaceName } });
         graph.addEdge({ from: filePath, to: ifaceId, type: "DEFINES" });
     }
 }

@@ -30,7 +30,7 @@ export function getFileHistory(nodeType: NodeType, file: string) {
     }
 
     const output = changes.map(n =>
-        `[${n!.data.timestamp}] ${n!.data.description}${n!.data.diff ? `\n${n!.data.diff}` : ""}`
+        `[${n!.data.timestamp?.toISOString() || "unknown"}] ${n!.data.description}${n!.data.diff ? `\n${n!.data.diff}` : ""}`
     ).join("\n\n---\n\n");
 
     return { content: [{ type: "text" as const, text: output }] };
@@ -43,8 +43,8 @@ export function getAllChanges(changesGraph: Graph) {
 
     const changes = Array.from(changesGraph.nodes.values())
         .filter(n => n.type === "code_change")
-        .sort((a, b) => a.data.timestamp.localeCompare(b.data.timestamp))
-        .map(n => `[${n.data.timestamp}] ${n.data.file}\n  ${n.data.description}`);
+        .sort((a, b) => (a.data.timestamp?.getTime() || 0) - (b.data.timestamp?.getTime() || 0))
+        .map(n => `[${n.data.timestamp?.toISOString() || "unknown"}] ${n.data.file}\n  ${n.data.description}`);
 
     return { content: [{ type: "text" as const, text: changes.join("\n\n") }] };
 }

@@ -46,6 +46,7 @@ export function buildContextGraph(dir: string): Graph {
         const filePath = sourceFile.getFilePath();
 
         graph.addNode({
+            graphType: "Code",
             id: filePath,
             type: "file",
             data: { path: filePath, name: sourceFile.getBaseName() }
