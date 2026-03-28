@@ -9,8 +9,8 @@ export function saveCodeChange(changesGraph, file, agentThought, description, di
             }]
     };
 }
-export function getFileHistory(nodeType, file) {
-    const changes = getChangesForFile(file, nodeType);
+export function getFileHistory(changesGraph, nodeType, file) {
+    const changes = getChangesForFile(changesGraph, file, nodeType);
     if (changes.length === 0) {
         return { content: [{ type: "text", text: `No recorded changes for: ${file}` }] };
     }

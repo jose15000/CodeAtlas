@@ -22,8 +22,8 @@ export function saveCodeChange(
     };
 }
 
-export function getFileHistory(nodeType: NodeType, file: string) {
-    const changes = getChangesForFile(file, nodeType);
+export function getFileHistory(changesGraph: Graph, nodeType: NodeType, file: string) {
+    const changes = getChangesForFile(changesGraph, file, nodeType);
 
     if (changes.length === 0) {
         return { content: [{ type: "text" as const, text: `No recorded changes for: ${file}` }] };

@@ -7,7 +7,7 @@ export declare function saveCodeChange(changesGraph: Graph, file: string, agentT
         text: string;
     }[];
 };
-export declare function getFileHistory(nodeType: NodeType, file: string): {
+export declare function getFileHistory(changesGraph: Graph, nodeType: NodeType, file: string): {
     content: {
         type: "text";
         text: string;

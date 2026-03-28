@@ -25,7 +25,6 @@ export function addCodeChange(graph, entry) {
     }
     return changeId;
 }
-export function getChangesForFile(file, nodeType) {
-    let graph = new Graph;
+export function getChangesForFile(graph, file, nodeType) {
     return Array.from(graph.nodes.values()).filter(n => n.type === nodeType && n.data.file === file);
 }

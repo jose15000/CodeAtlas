@@ -164,7 +164,7 @@ server.registerTool(
             ]).describe("use it to register the agent thought").optional(),
         }
     },
-    async ({ file, nodeType }) => getFileHistory(nodeType, file)
+    async ({ file, nodeType }) => getFileHistory(changesGraph, nodeType, file)
 );
 
 server.registerTool(

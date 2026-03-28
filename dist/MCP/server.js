@@ -111,7 +111,7 @@ server.registerTool("get_file_history", {
             "decision", "plan", "observation", "bug", "fix", "test"
         ]).describe("use it to register the agent thought").optional(),
     }
-}, async ({ file, nodeType }) => getFileHistory(nodeType, file));
+}, async ({ file, nodeType }) => getFileHistory(changesGraph, nodeType, file));
 server.registerTool("get_all_changes", {
     description: "Returns all recorded code changes across the project, sorted by time.",
     inputSchema: {}

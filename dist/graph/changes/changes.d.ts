@@ -11,5 +11,5 @@ export interface CodeChangeEntry {
 export declare function loadChangesGraph(): Graph;
 export declare function saveChangesGraph(graph: Graph): void;
 export declare function addCodeChange(graph: Graph, entry: CodeChangeEntry): string;
-export declare function getChangesForFile(file: string, nodeType: NodeType): import("../../types/Node.js").Node[];
+export declare function getChangesForFile(graph: Graph, file: string, nodeType: NodeType): import("../../types/Node.js").Node[];
 //# sourceMappingURL=changes.d.ts.map

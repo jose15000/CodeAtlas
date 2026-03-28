@@ -44,8 +44,7 @@ export function addCodeChange(graph: Graph, entry: CodeChangeEntry): string {
     return changeId;
 }
 
-export function getChangesForFile(file: string, nodeType: NodeType) {
-    let graph = new Graph;
+export function getChangesForFile(graph: Graph, file: string, nodeType: NodeType) {
     return Array.from(graph.nodes.values()).filter(
         n => n.type === nodeType && n.data.file === file
     );
