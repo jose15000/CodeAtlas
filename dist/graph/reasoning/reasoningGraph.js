@@ -1,7 +1,7 @@
 import path from "path";
 import { Graph } from "../Graph.js";
 import { saveGraph, loadGraph } from "../persistence.js";
-import { EmbedQuery } from "../../MCP/functions/embedQuery.js";
+import { EmbedQuery } from "../../functions/embedQuery.js";
 const REASONING_CACHE = "./context/.codeatlas-reasoning.json";
 export function loadReasoningGraph() {
     const cachePath = path.join(process.cwd(), REASONING_CACHE);

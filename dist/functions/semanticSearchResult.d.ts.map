@@ -1,0 +1,1 @@
+{"version":3,"file":"semanticSearchResult.d.ts","sourceRoot":"","sources":["../../src/functions/semanticSearchResult.ts"],"names":[],"mappings":"AAAA,OAAO,EAAE,QAAQ,EAAE,MAAM,mBAAmB,CAAC;AAE7C,MAAM,MAAM,oBAAoB,GAAG;IAC/B,IAAI,EAAE,QAAQ,CAAC;IACf,KAAK,EAAE,MAAM,CAAC;IACd,EAAE,EAAE,MAAM,CAAC;IACX,IAAI,EAAE,MAAM,CAAC;CAChB,CAAA"}
