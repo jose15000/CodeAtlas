@@ -4,7 +4,6 @@ import { fileURLToPath } from 'url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 function run() {
-    // INIT_CWD é fornecido pelo NPM na pasta raiz do usuário copiador
     const targetDirStr = process.env.INIT_CWD;
     if (!targetDirStr) {
         return; // Caso não seja pacote executável comum
