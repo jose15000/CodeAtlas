@@ -9,18 +9,18 @@ export function expandGraph(graph, start, depth = 2, bidirectional = false, maxN
     const subEdges = [];
     let frontier = [start];
     if (depth === 0) {
-        const edges = bidirectional
-            ? graph.edges.filter(e => e.from === start || e.to === start)
+        const adjacentEdges = bidirectional
+            ? graph.edges.filter((e) => e.from === start || e.to === start)
             : graph.getEdgesFrom(start);
-        subEdges.push(...edges);
+        subEdges.push(...adjacentEdges);
     }
     for (let i = 0; i < depth; i++) {
         const nextFrontier = [];
         for (const current of frontier) {
-            const edges = bidirectional
-                ? graph.edges.filter(e => e.from === current || e.to === current)
+            const adjacentEdges = bidirectional
+                ? graph.edges.filter((e) => e.from === current || e.to === current)
                 : graph.getEdgesFrom(current);
-            for (const edge of edges) {
+            for (const edge of adjacentEdges) {
                 subEdges.push(edge);
                 const neighbors = bidirectional ? [edge.from, edge.to] : [edge.to];
                 for (const neighbor of neighbors) {

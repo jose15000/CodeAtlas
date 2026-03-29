@@ -1,6 +1,6 @@
 import fs from "fs";
 import path from "path";
-import { Graph } from "./Graph.js";
+import { Graph } from "../core/graph/Graph.js";
 export function saveGraph(graph, filePath) {
     const data = {
         nodes: Array.from(graph.nodes.values()),

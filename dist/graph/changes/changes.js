@@ -1,5 +1,5 @@
 import path from "path";
-import { Graph } from "../Graph.js";
+import { Graph } from "../../core/graph/Graph.js";
 import { saveGraph, loadGraph } from "../persistence.js";
 const CHANGES_CACHE = "./context/codeatlas-changes.json";
 export function loadChangesGraph() {

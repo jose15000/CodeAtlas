@@ -1,5 +1,5 @@
 import { SyntaxKind } from "ts-morph";
-import { EmbedQuery } from "../../functions/embedQuery.js";
+import { EmbedQuery } from "../../core/indexer/embedQuery.js";
 export async function indexFunctions(sourceFile, graph, typeChecker, isProjectFile) {
     const filePath = sourceFile.getFilePath();
     for (const fn of sourceFile.getFunctions()) {

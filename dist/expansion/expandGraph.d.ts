@@ -1,6 +1,6 @@
-import { Graph } from "../graph/Graph.js";
-import { Node } from "../types/Node.js";
-import { Edge } from "../types/Edge.js";
+import { Graph } from "../core/graph/Graph.js";
+import { Node } from "../core/graph/models/Node.js";
+import { Edge } from "../core/graph/models/Edge.js";
 export interface ExpandResult {
     nodes: Node[];
     edges: Edge[];
