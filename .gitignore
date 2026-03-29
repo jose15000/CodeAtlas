@@ -50,5 +50,5 @@ package-lock.json
 
 /tests
 
-./agents/workflows/publishNpm.md
-./agents/workflows/test-atlas.md
+.agents/workflows/publishNpm.md
+.agents/workflows/test-atlas.md
