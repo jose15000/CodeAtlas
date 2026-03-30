@@ -6,14 +6,12 @@ const __dirname = path.dirname(__filename);
 function run() {
     const targetDirStr = process.env.INIT_CWD;
     if (!targetDirStr) {
-        return; // Caso não seja pacote executável comum
+        return;
     }
     const currentDir = process.cwd();
-    // Se o usuário estiver rodando install dentro do próprio repositório CodeAtlas, ignorar
     if (path.resolve(targetDirStr) === path.resolve(currentDir)) {
         return;
     }
-    // `__dirname` estará compilada em /dist/scripts
     const templateDir = path.resolve(__dirname, '..', 'agents-template');
     const targetAgentsDir = path.resolve(targetDirStr, '.agents');
     if (!fs.existsSync(templateDir)) {
@@ -34,7 +32,6 @@ function run() {
                 copyRecursive(srcPath, destPath);
             }
             else {
-                // Instala de forma não invasiva: Não sobrescreve regras que o consumidor já alterou
                 if (!fs.existsSync(destPath)) {
                     fs.copyFileSync(srcPath, destPath);
                     console.log(`[ContextAtlas] Workflow agent model instalado: ${entry.name}`);
