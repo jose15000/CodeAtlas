@@ -1,61 +1,14 @@
 import type { Node as RFNode, Edge as RFEdge } from "@xyflow/react";
-import type { AtlasNode, AtlasEdge, NodeType, EdgeType } from "./types";
-
-// ─── Node colors by type ─────────────────────────────────────────────────────
-const NODE_COLORS: Record<NodeType, { bg: string; border: string; text: string }> = {
-    file:            { bg: "#1e293b", border: "#3b82f6", text: "#93c5fd" },
-    function:        { bg: "#1a1a2e", border: "#8b5cf6", text: "#c4b5fd" },
-    method:          { bg: "#1a1a2e", border: "#a78bfa", text: "#ddd6fe" },
-    class:           { bg: "#1c1917", border: "#f59e0b", text: "#fcd34d" },
-    interface:       { bg: "#1c1917", border: "#f97316", text: "#fdba74" },
-    import:          { bg: "#0f172a", border: "#06b6d4", text: "#67e8f9" },
-    exports:         { bg: "#0f172a", border: "#14b8a6", text: "#5eead4" },
-    module:          { bg: "#1e293b", border: "#6366f1", text: "#a5b4fc" },
-    user_prompt:     { bg: "#1e1b4b", border: "#818cf8", text: "#c7d2fe" },
-    agent_thought:   { bg: "#312e81", border: "#a78bfa", text: "#ddd6fe" },
-    tool_call:       { bg: "#172554", border: "#3b82f6", text: "#93c5fd" },
-    tool_result:     { bg: "#0c4a6e", border: "#38bdf8", text: "#7dd3fc" },
-    code_change:     { bg: "#14532d", border: "#22c55e", text: "#86efac" },
-    implementation:  { bg: "#1e3a5f", border: "#60a5fa", text: "#bfdbfe" },
-    context_lookup:  { bg: "#44403c", border: "#a8a29e", text: "#d6d3d1" },
-};
-
-const EDGE_COLORS: Record<EdgeType, string> = {
-    IMPORTS:            "#3b82f6",
-    EXPORTS:            "#14b8a6",
-    CALLS:              "#8b5cf6",
-    IMPLEMENTS:         "#f59e0b",
-    DEFINES:            "#22c55e",
-    GENERATED_BY:       "#f43f5e",
-    THINKS:             "#a78bfa",
-    CALLS_TOOL:         "#38bdf8",
-    MODIFIES:           "#fb923c",
-    FIXES:              "#4ade80",
-    RELATED_TO_PROMPT:  "#818cf8",
-};
+import type { AtlasNode, AtlasEdge } from "./types";
+import { edge_colors, node_colors } from "./utils/colors";
+import { node_icons } from "./utils/nodeIcons";
 
 // ─── Node icons (emoji) ──────────────────────────────────────────────────────
-const NODE_ICONS: Record<NodeType, string> = {
-    file: "📄",
-    function: "⚡",
-    method: "🔧",
-    class: "🏗️",
-    interface: "📐",
-    import: "📥",
-    exports: "📤",
-    module: "📦",
-    user_prompt: "💬",
-    agent_thought: "🧠",
-    tool_call: "🔌",
-    tool_result: "✅",
-    code_change: "✏️",
-    implementation: "🚀",
-    context_lookup: "🔍",
-};
+
 
 // ─── Label builder ───────────────────────────────────────────────────────────
 function buildLabel(node: AtlasNode): string {
-    const icon = NODE_ICONS[node.type] ?? "●";
+    const icon = node_icons[node.type] ?? "●";
     const name = node.data.name ?? node.data.file ?? node.id.split("/").pop() ?? node.id;
     return `${icon}  ${name}`;
 }
@@ -102,7 +55,7 @@ export function toReactFlowElements(
     const nodeIds = new Set(atlasNodes.map((n) => n.id));
 
     const nodes: RFNode[] = atlasNodes.map((n) => {
-        const colors = NODE_COLORS[n.type] ?? { bg: "#1e293b", border: "#64748b", text: "#cbd5e1" };
+        const colors = node_colors[n.type] ?? { bg: "#1e293b", border: "#64748b", text: "#cbd5e1" };
         const pos = positions.get(n.id) ?? { x: 0, y: 0 };
 
         return {
@@ -112,8 +65,8 @@ export function toReactFlowElements(
             style: {
                 background: colors.bg,
                 color: colors.text,
-                border: `2px solid ${colors.border}`,
-                borderRadius: "12px",
+                border: `20px ${colors.border}`,
+                borderRadius: "40px",
                 padding: "10px 16px",
                 fontSize: "13px",
                 fontWeight: 600,
@@ -135,13 +88,13 @@ export function toReactFlowElements(
             type: "smoothstep",
             animated: e.type === "CALLS" || e.type === "IMPORTS",
             style: {
-                stroke: EDGE_COLORS[e.type] ?? "#475569",
+                stroke: edge_colors[e.type] ?? "#475569",
                 strokeWidth: 1.5,
             },
             labelStyle: {
                 fontSize: "10px",
                 fontWeight: 500,
-                fill: EDGE_COLORS[e.type] ?? "#94a3b8",
+                fill: edge_colors[e.type] ?? "#94a3b8",
             },
             labelBgStyle: {
                 fill: "#0f172a",
