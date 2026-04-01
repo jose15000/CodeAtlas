@@ -12,7 +12,6 @@ import { SearchHandlers } from "./handlers/search.js";
 import { GraphHandlers } from "./handlers/graph.js";
 import { CodeHandlers } from "./handlers/code.js";
 import { HistoryHandlers } from "./handlers/history.js";
-
 // ─── Load all three graphs into memory at startup ────────────────────────────
 const CACHE_PATH = path.join(process.cwd(), "./context/.codeatlas-cache.json");
 

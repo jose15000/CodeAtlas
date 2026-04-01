@@ -46,6 +46,7 @@ export async function loadOrBuildGraph(cachePath: string): Promise<Graph> {
 
     const graph = await buildContextGraph(process.cwd());
     saveGraph(graph, cachePath);
+
     console.error(`[CodeAtlas] Graph built and cached (${graph.nodes.size} nodes, ${graph.edges.length} edges)`);
     return graph;
 }
