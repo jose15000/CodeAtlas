@@ -1,4 +1,4 @@
-import { Graph } from "../../core/graph/Graph.js";
+import type { Graph } from "../../core/graph/Graph.js";
 
 /**
  * Measures the impact of changes to a set of nodes in the graph.
@@ -28,7 +28,7 @@ export function measureCodeImpact(
     let head = 0;
     while (head < queue.length) {
         const nodeId = queue[head++];
-        const currentImpact = impactScores.get(nodeId)!;
+        const currentImpact = impactScores.get(nodeId) ?? 0;
 
         // Find nodes that depend on this node (incoming edges)
         const incomingEdges = graph.getEdgesTo(nodeId);

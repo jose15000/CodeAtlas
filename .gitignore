@@ -48,7 +48,5 @@ package-lock.json
 
 .npmrc
 
-/tests
-
 .agents/workflows/publishNpm.md
 .agents/workflows/test-atlas.md
