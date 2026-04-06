@@ -8,5 +8,6 @@ export declare class Graph {
     getNode(id: string): Node | undefined;
     getEdgesFrom(id: string): Edge[];
     getEdgesTo(id: string): Edge[];
+    removeSubGraphOfFile(filePath: string): void;
 }
 //# sourceMappingURL=Graph.d.ts.map

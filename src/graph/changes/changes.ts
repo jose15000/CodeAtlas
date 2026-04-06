@@ -1,8 +1,8 @@
 import path from "path";
 import { Graph } from "../../core/graph/Graph.js";
-import { saveGraph, loadGraph } from "../persistence.js";
-import { NodeType } from "../../core/graph/models/NodeType.js";
-import { AgentThought } from "../../core/graph/models/AgentThought.js";
+import { loadGraph, debounceSaveGraph } from "../persistence.js";
+import type { NodeType } from "../../core/graph/models/NodeType.js";
+import type { AgentThought } from "../../core/graph/models/AgentThought.js";
 
 const CHANGES_CACHE = "./context/codeatlas-changes.json";
 
@@ -21,7 +21,7 @@ export function loadChangesGraph(): Graph {
 
 export function saveChangesGraph(graph: Graph): void {
     const cachePath = path.join(process.cwd(), CHANGES_CACHE);
-    saveGraph(graph, cachePath);
+    debounceSaveGraph(graph, cachePath);
 }
 
 export function addCodeChange(graph: Graph, entry: CodeChangeEntry): string {

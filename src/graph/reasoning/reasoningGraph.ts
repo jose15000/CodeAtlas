@@ -1,6 +1,6 @@
 import path from "path";
 import { Graph } from "../../core/graph/Graph.js";
-import { saveGraph, loadGraph } from "../persistence.js";
+import { loadGraph, debounceSaveGraph } from "../persistence.js";
 import { NodeData } from "../../core/graph/models/NodeData.js";
 import { EmbedQuery } from "../../core/indexer/embedQuery.js";
 
@@ -13,7 +13,7 @@ export function loadReasoningGraph(): Graph {
 
 export function saveReasoningGraph(graph: Graph): void {
     const cachePath = path.join(process.cwd(), REASONING_CACHE);
-    saveGraph(graph, cachePath);
+    debounceSaveGraph(graph, cachePath);
 }
 
 

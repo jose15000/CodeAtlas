@@ -1,6 +1,6 @@
 import path from "path";
 import { Graph } from "../../core/graph/Graph.js";
-import { saveGraph, loadGraph } from "../persistence.js";
+import { loadGraph, debounceSaveGraph } from "../persistence.js";
 const CHANGES_CACHE = "./context/codeatlas-changes.json";
 export function loadChangesGraph() {
     const cachePath = path.join(process.cwd(), CHANGES_CACHE);
@@ -8,7 +8,7 @@ export function loadChangesGraph() {
 }
 export function saveChangesGraph(graph) {
     const cachePath = path.join(process.cwd(), CHANGES_CACHE);
-    saveGraph(graph, cachePath);
+    debounceSaveGraph(graph, cachePath);
 }
 export function addCodeChange(graph, entry) {
     const timestamp = new Date();

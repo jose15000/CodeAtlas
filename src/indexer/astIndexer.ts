@@ -1,4 +1,4 @@
-import { Project } from "ts-morph";
+import { Project, type SourceFile, type TypeChecker } from "ts-morph";
 import { Graph } from "../core/graph/Graph.js";
 import { indexClasses } from "./extractors/classes.js";
 import { indexFunctions } from "./extractors/functions.js";
@@ -44,24 +44,52 @@ export async function buildContextGraph(dir: string): Promise<Graph> {
     const sourceFiles = project.getSourceFiles().filter(sf => inProject(sf.getFilePath()));
 
     for (const sourceFile of sourceFiles) {
-        const filePath = sourceFile.getFilePath();
-        const fileContentContext = `File: ${filePath}. Classes: ${sourceFile.getClasses().map(c => c.getName()).join(', ')}. Functions: ${sourceFile.getFunctions().map(f => f.getName()).join(', ')}.`;
-        const embedding = await EmbedQuery(fileContentContext);
-        graph.addNode({
-            graphType: "Code",
-            id: filePath,
-            type: "file",
-            data: {
-                path: filePath, name: sourceFile.getBaseName(), embedding: embedding
-
-            }
-        });
-
-        indexClasses(sourceFile, graph, typeChecker, inProject);
-        indexInterfaces(sourceFile, graph);
-        indexFunctions(sourceFile, graph, typeChecker, inProject);
-        indexImports(sourceFile, graph);
+        await indexSourceFile(sourceFile, graph, typeChecker, inProject);
     }
 
     return graph;
+}
+
+async function indexSourceFile(sourceFile: SourceFile, graph: Graph, typeChecker: TypeChecker, inProject: (fp: string) => boolean) {
+    const filePath = sourceFile.getFilePath();
+    const fileContentContext = `File: ${filePath}. Classes: ${sourceFile.getClasses().map(c => c.getName()).join(', ')}. Functions: ${sourceFile.getFunctions().map(f => f.getName()).join(', ')}.`;
+    const embedding = await EmbedQuery(fileContentContext);
+    graph.addNode({
+        graphType: "Code",
+        id: filePath,
+        type: "file",
+        data: {
+            path: filePath, name: sourceFile.getBaseName(), embedding: embedding
+
+        }
+    });
+
+    await indexClasses(sourceFile, graph, typeChecker, inProject);
+    indexInterfaces(sourceFile, graph);
+    await indexFunctions(sourceFile, graph, typeChecker, inProject);
+    indexImports(sourceFile, graph);
+}
+
+export async function reindexFiles(graph: Graph, dir: string, filesToUpdate: string[]): Promise<void> {
+    if (filesToUpdate.length === 0) return;
+
+    const project = new Project({
+        tsConfigFilePath: `${dir}/tsconfig.json`,
+        skipAddingFilesFromTsConfig: false,
+    });
+
+    const inProject = isProjectFile(dir);
+    const typeChecker = project.getTypeChecker();
+    
+    // As ts-morph might not autoload properly if tsconfig scope is weird, we forcefully add them
+    project.addSourceFilesAtPaths(filesToUpdate);
+    const sourceFiles = project.getSourceFiles().filter(sf => {
+        const fp = sf.getFilePath();
+        return filesToUpdate.includes(fp) && inProject(fp);
+    });
+
+    for (const sourceFile of sourceFiles) {
+        await indexSourceFile(sourceFile, graph, typeChecker, inProject);
+    }
+
 }

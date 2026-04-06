@@ -1,6 +1,6 @@
 import path from "path";
 import { Graph } from "../../core/graph/Graph.js";
-import { saveGraph, loadGraph } from "../persistence.js";
+import { loadGraph, debounceSaveGraph } from "../persistence.js";
 import { EmbedQuery } from "../../core/indexer/embedQuery.js";
 const REASONING_CACHE = "./context/.codeatlas-reasoning.json";
 export function loadReasoningGraph() {
@@ -9,7 +9,7 @@ export function loadReasoningGraph() {
 }
 export function saveReasoningGraph(graph) {
     const cachePath = path.join(process.cwd(), REASONING_CACHE);
-    saveGraph(graph, cachePath);
+    debounceSaveGraph(graph, cachePath);
 }
 export async function addReasoning(graph, data) {
     if (!data.reasoning)

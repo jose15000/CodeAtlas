@@ -1,6 +1,6 @@
 import { Graph } from "../../core/graph/Graph.js";
-import { NodeType } from "../../core/graph/models/NodeType.js";
-import { AgentThought } from "../../core/graph/models/AgentThought.js";
+import type { NodeType } from "../../core/graph/models/NodeType.js";
+import type { AgentThought } from "../../core/graph/models/AgentThought.js";
 export interface CodeChangeEntry {
     file: string;
     description: string;

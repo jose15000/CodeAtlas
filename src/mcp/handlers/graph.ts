@@ -1,6 +1,6 @@
 import { Graph } from "../../core/graph/Graph.js";
-import { expandNode } from "../../services/graph/expandNode.js";
-import { Edge } from "../../core/graph/models/Edge.js";
+import  { expandNode } from "../../services/graph/expandNode.js";
+import type { Edge } from "../../core/graph/models/Edge.js";
 
 export const GraphHandlers = {
     handleExpandNode: async (graph: Graph, nodeId: string, depth: number) => {
