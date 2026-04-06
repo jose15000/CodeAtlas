@@ -4,6 +4,7 @@ import { indexClasses } from "./extractors/classes.js";
 import { indexFunctions } from "./extractors/functions.js";
 import { indexInterfaces } from "./extractors/interfaces.js";
 import { indexImports } from "./extractors/imports.js";
+import { indexExportedObjects } from "./extractors/exportedObjects.js";
 import { EmbedQuery } from "../core/indexer/embedQuery.js";
 const EXCLUDED_DIRS = ["node_modules", "dist", ".next", ".cache"];
 const SOURCE_EXTENSIONS = [".ts", ".tsx", ".js", ".jsx"];
@@ -54,6 +55,7 @@ async function indexSourceFile(sourceFile, graph, typeChecker, inProject) {
     await indexClasses(sourceFile, graph, typeChecker, inProject);
     indexInterfaces(sourceFile, graph);
     await indexFunctions(sourceFile, graph, typeChecker, inProject);
+    await indexExportedObjects(sourceFile, graph, typeChecker, inProject);
     indexImports(sourceFile, graph);
 }
 export async function reindexFiles(graph, dir, filesToUpdate) {

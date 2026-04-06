@@ -43,9 +43,15 @@ export async function indexClasses(sourceFile, graph, typeChecker, isProjectFile
                 const targetFile = valueDec.getSourceFile().getFilePath();
                 if (!isProjectFile(targetFile))
                     continue;
+                const targetName = symbol.getName();
+                const targetClass = valueDec.getParent();
+                const isMethod = targetClass && targetClass.isKind(SyntaxKind.ClassDeclaration);
+                const qualifiedName = isMethod && targetClass.getName()
+                    ? `${targetClass.getName()}.${targetName}`
+                    : targetName;
                 graph.addEdge({
                     from: methodId,
-                    to: `${targetFile}#${symbol.getName()}`,
+                    to: `${targetFile}#${qualifiedName}`,
                     type: "CALLS"
                 });
             }
