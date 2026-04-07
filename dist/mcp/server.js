@@ -3,6 +3,7 @@ import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
 import { z } from "zod";
 import path from "path";
+import { createRequire } from "module";
 import { loadOrBuildGraph } from "../services/graph/loadOrBuildGraph.js";
 import { loadReasoningGraph } from "../graph/reasoning/reasoningGraph.js";
 import { loadChangesGraph } from "../graph/changes/changes.js";
@@ -11,6 +12,9 @@ import { GraphHandlers } from "./handlers/graph.js";
 import { CodeHandlers } from "./handlers/code.js";
 import { HistoryHandlers } from "./handlers/history.js";
 import { ImpactHandlers } from "./handlers/impact.js";
+// ─── Read package version ─────────────────────────────────────────────────────
+const require = createRequire(import.meta.url);
+const { version: PKG_VERSION } = require("../../package.json");
 // ─── Load all three graphs into memory at startup ────────────────────────────
 const CACHE_PATH = path.join(process.cwd(), "./context/.codeatlas-cache.json");
 const codeGraph = await loadOrBuildGraph(CACHE_PATH);
@@ -19,7 +23,7 @@ const changesGraph = loadChangesGraph();
 console.error(`[CodeAtlas] Reasoning graph: ${reasoningGraph.nodes.size} nodes`);
 console.error(`[CodeAtlas] Changes graph:   ${changesGraph.nodes.size} nodes`);
 // ─── MCP Server ───────────────────────────────────────────────────────────────
-const server = new McpServer({ name: "CodeAtlas", version: "1.0.0" }, { capabilities: { tools: {} } });
+const server = new McpServer({ name: "CodeAtlas", version: PKG_VERSION }, { capabilities: { tools: {} } });
 // Code Graph tools
 server.registerTool("find_symbol", {
     description: "Find code entities (functions, classes, methods, interfaces) by name. Returns id, type, file and name.",
