@@ -5,7 +5,6 @@ import {
     VariableStatement,
 } from "ts-morph";
 import type { Graph } from "../../core/graph/Graph.js";
-import { EmbedQuery } from "../../core/indexer/embedQuery.js";
 
 /**
  * Indexes arrow functions and function expressions inside exported object literals,
@@ -55,14 +54,11 @@ export async function indexExportedObjects(
                 ? fnLike.getParameters().map(p => p.getText()).join(', ')
                 : '';
 
-            const contexto = `Handler ${objectName}.${propName}(${params})`;
-            const embed = await EmbedQuery(contexto);
-
             graph.addNode({
                 graphType: "Code",
                 id: fnId,
                 type: "function",
-                data: { name: `${objectName}.${propName}`, embedding: embed }
+                data: { name: `${objectName}.${propName}` }
             });
             graph.addEdge({ from: filePath, to: fnId, type: "DEFINES" });
 

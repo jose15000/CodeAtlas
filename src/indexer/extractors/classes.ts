@@ -1,6 +1,5 @@
 import { SourceFile, TypeChecker, SyntaxKind } from "ts-morph";
 import { Graph } from "../../core/graph/Graph.js";
-import { EmbedQuery } from "../../core/indexer/embedQuery.js";
 
 export async function indexClasses(
     sourceFile: SourceFile,
@@ -32,15 +31,13 @@ export async function indexClasses(
             const params = method.getParameters().map(p => p.getText()).join(', ');
             const returnType = method.getReturnTypeNode()?.getText() || 'void';
             const jsDoc = method.getJsDocs()[0]?.getInnerText() || '';
-            const contextoMetodo = `Method ${className}.${methodName}(${params}): ${returnType}. ${jsDoc}`;
-            const embedding = await EmbedQuery(contextoMetodo);
 
             const methodId = `${filePath}#${className}.${methodName}`;
             graph.addNode({
                 graphType: "Code",
                 id: methodId,
                 type: "method",
-                data: { name: `${className}.${methodName}`, className, methodName, embedding }
+                data: { name: `${className}.${methodName}`, className, methodName }
             });
             graph.addEdge({ from: classId, to: methodId, type: "DEFINES" });
 

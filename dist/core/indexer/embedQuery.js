@@ -1,5 +1,5 @@
 import { pipeline } from "@huggingface/transformers";
-let _pipe = null;
+let _pipe;
 async function getPipeline() {
     if (!_pipe) {
         _pipe = await pipeline("feature-extraction", "Xenova/all-MiniLM-L6-v2");

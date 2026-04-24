@@ -1,6 +1,5 @@
 import { SourceFile, TypeChecker, SyntaxKind } from "ts-morph";
 import { Graph } from "../../core/graph/Graph.js";
-import { EmbedQuery } from "../../core/indexer/embedQuery.js";
 
 export async function indexFunctions(
     sourceFile: SourceFile,
@@ -17,11 +16,9 @@ export async function indexFunctions(
         const params = fn.getParameters().map(p => p.getText()).join(', ');
         const returnType = fn.getReturnTypeNode()?.getText() || 'void';
         const jsDoc = fn.getJsDocs()[0]?.getInnerText() || '';
-        const contextoFuncao = `Function ${fnName}(${params}): ${returnType}. ${jsDoc}`;
-        const embed = await EmbedQuery(contextoFuncao);
 
         const fnId = `${filePath}#${fnName}`;
-        graph.addNode({ graphType: "Code", id: fnId, type: "function", data: { name: fnName, embedding: embed } });
+        graph.addNode({ graphType: "Code", id: fnId, type: "function", data: { name: fnName } });
         graph.addEdge({ from: filePath, to: fnId, type: "DEFINES" });
 
         for (const callExpr of fn.getDescendantsOfKind(SyntaxKind.CallExpression)) {

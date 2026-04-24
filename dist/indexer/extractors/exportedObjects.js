@@ -1,5 +1,4 @@
 import { SyntaxKind, } from "ts-morph";
-import { EmbedQuery } from "../../core/indexer/embedQuery.js";
 /**
  * Indexes arrow functions and function expressions inside exported object literals,
  * e.g., `export const SearchHandlers = { handleFind: async (graph, q) => {...} }`.
@@ -41,13 +40,11 @@ export async function indexExportedObjects(sourceFile, graph, typeChecker, isPro
             const params = typeof fnLike.getParameters === 'function'
                 ? fnLike.getParameters().map(p => p.getText()).join(', ')
                 : '';
-            const contexto = `Handler ${objectName}.${propName}(${params})`;
-            const embed = await EmbedQuery(contexto);
             graph.addNode({
                 graphType: "Code",
                 id: fnId,
                 type: "function",
-                data: { name: `${objectName}.${propName}`, embedding: embed }
+                data: { name: `${objectName}.${propName}` }
             });
             graph.addEdge({ from: filePath, to: fnId, type: "DEFINES" });
             // Index CALLS inside the handler

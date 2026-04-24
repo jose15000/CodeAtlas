@@ -208,7 +208,7 @@ server.registerTool(
         description: "Returns the weights from the impacted nodes",
         inputSchema: {
             modifiedNodeIds: z.array(z.string()).describe("the IDs from modified nodes"),
-            threshold: z.number().optional()       
+            threshold: z.number().optional()
         },
     },
     async ({ modifiedNodeIds, threshold }) => ImpactHandlers.handleGetImpact(codeGraph, modifiedNodeIds, threshold)

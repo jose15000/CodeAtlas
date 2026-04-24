@@ -1,6 +1,6 @@
 import { pipeline, type FeatureExtractionPipeline } from "@huggingface/transformers";
 
-let _pipe: FeatureExtractionPipeline | null = null;
+let _pipe: FeatureExtractionPipeline
 
 async function getPipeline(): Promise<FeatureExtractionPipeline> {
     if (!_pipe) {
