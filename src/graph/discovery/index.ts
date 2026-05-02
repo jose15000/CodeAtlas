@@ -39,7 +39,7 @@ export function discovery(graph: Graph) {
             try {
                 const fileContent = node.data?.text || fs.readFileSync(filePath, "utf-8");
                 const findExports = isBarrelFile(fileContent);
-                const isTypeFile = fileContent.includes("Types.ts");
+                const isTypeFile = filePath.endsWith(".d.ts") || filePath.toLowerCase().endsWith("types.ts");
                 if (findExports || isTypeFile) continue;
             } catch (err) {
                 console.error(`Error reading file ${filePath}:`, err);
