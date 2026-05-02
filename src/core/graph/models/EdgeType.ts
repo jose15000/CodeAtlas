@@ -1,6 +1,5 @@
 export type EdgeType =
-    "IMPORTS" |
-    "EXPORTS"
+    "IMPORTS"
     | "CALLS"
     | "IMPLEMENTS"
     | "DEFINES"

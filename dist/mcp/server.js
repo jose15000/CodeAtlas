@@ -14,6 +14,7 @@ import { HistoryHandlers } from "./handlers/history.js";
 import { ImpactHandlers } from "./handlers/impact.js";
 import { BlastRadiusHandlers } from "./handlers/blastRadius.js";
 import { DiscoveryHandlers } from "./handlers/discovery.js";
+import { onboardingHandler } from "./onboarding.js";
 // ─── Read package version ─────────────────────────────────────────────────────
 const require = createRequire(import.meta.url);
 const { version: PKG_VERSION } = require("../../package.json");
@@ -149,6 +150,12 @@ server.registerTool("discovery", {
     description: "Analyze the project graph and return the initial context containing top core files, central components, and overall project scale. Useful to orientation after installation.",
     inputSchema: {}
 }, async () => DiscoveryHandlers.handleDiscovery(codeGraph));
+server.registerTool("onboarding", {
+    description: "Guide a new user through the codebase.",
+    inputSchema: {
+        discovery: z.string().describe("The disovery register input.")
+    },
+}, async ({ discovery }) => onboardingHandler.HandleOnboarding(codeGraph, discovery));
 // Starts the MCP server on stdio transport
 async function main() {
     const transport = new StdioServerTransport();

@@ -1,2 +1,2 @@
-export type EdgeType = "IMPORTS" | "EXPORTS" | "CALLS" | "IMPLEMENTS" | "DEFINES" | "GENERATED_BY" | "THINKS" | "CALLS_TOOL" | "MODIFIES" | "FIXES" | "RELATED_TO_PROMPT";
+export type EdgeType = "IMPORTS" | "CALLS" | "IMPLEMENTS" | "DEFINES" | "GENERATED_BY" | "THINKS" | "CALLS_TOOL" | "MODIFIES" | "FIXES" | "RELATED_TO_PROMPT";
 //# sourceMappingURL=EdgeType.d.ts.map
