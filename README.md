@@ -16,7 +16,9 @@ Unlike standard environments where the AI fumbles around to understand a project
 
 ## 🚀 Quick Start
 
-Add ContextAtlas to your favorite MCP client's configuration file (e.g., `claude_desktop_config.json` for Claude Desktop or your editor's settings):
+### Option A — No install required (recommended)
+
+Just add the following to your MCP client config. The package will be downloaded automatically on first run via `npx`:
 
 ```json
 "mcpServers": {
@@ -27,6 +29,24 @@ Add ContextAtlas to your favorite MCP client's configuration file (e.g., `claude
       "@contextatlas/core@latest",
       "mcp-atlas"
     ]
+  }
+}
+```
+
+### Option B — Global install (faster startup)
+
+Install once globally and reference the binary directly:
+
+```bash
+npm install -g @contextatlas/core
+```
+
+Then use this config instead:
+
+```json
+"mcpServers": {
+  "contextatlas": {
+    "command": "mcp-atlas"
   }
 }
 ```
@@ -131,9 +151,11 @@ Diferente de ambientes padrão onde a IA fica "tateando" no escuro para entender
 
 ---
 
-## 🚀 Quick Start (Instalação)
+## 🚀 Instalação
 
-Basta adicionar o ContextAtlas ao arquivo de configuração do seu cliente MCP favorito (por exemplo, `claude_desktop_config.json` para o Claude Desktop ou nas configurações do seu editor):
+### Opção A — Sem instalação (recomendado)
+
+Adicione o seguinte ao arquivo de configuração do seu cliente MCP. O pacote será baixado automaticamente no primeiro uso via `npx`:
 
 ```json
 "mcpServers": {
@@ -144,6 +166,24 @@ Basta adicionar o ContextAtlas ao arquivo de configuração do seu cliente MCP f
       "@contextatlas/core@latest",
       "mcp-atlas"
     ]
+  }
+}
+```
+
+### Opção B — Instalação global (inicialização mais rápida)
+
+Instale uma vez globalmente e referencie o binário diretamente:
+
+```bash
+npm install -g @contextatlas/core
+```
+
+Depois use esta configuração:
+
+```json
+"mcpServers": {
+  "contextatlas": {
+    "command": "mcp-atlas"
   }
 }
 ```
